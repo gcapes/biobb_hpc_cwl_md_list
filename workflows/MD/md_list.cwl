@@ -24,14 +24,14 @@ outputs:
     doc: |
       Raw trajectory from the free simulation step
     type: File
-    outputSource: step18_mdrun_md/output_trr_file
+    outputSource: step14_mdrun_md/output_trr_file
     
   gro:
     label: Structures - Raw structure
     doc: |
       Raw structure from the free simulation step.
     type: File
-    outputSource: step18_mdrun_md/output_gro_file
+    outputSource: step14_mdrun_md/output_gro_file
 
   cpt:
     label: Checkpoint file
@@ -39,7 +39,7 @@ outputs:
       GROMACS portable checkpoint file, allowing to restore (continue) the
       simulation from the last step of the setup process.
     type: File
-    outputSource: step18_mdrun_md/output_cpt_file
+    outputSource: step14_mdrun_md/output_cpt_file
 
   tpr:
     label: Topologies GROMACS portable binary run
@@ -47,7 +47,7 @@ outputs:
       GROMACS portable binary run input file, containing the starting structure
       of the simulation, the molecular topology and all the simulation parameters.
     type: File
-    outputSource: step17_grompp_md/output_tpr_file
+    outputSource: step13_grompp_md/output_tpr_file
 
   top:
     label: GROMACS topology file
@@ -55,7 +55,7 @@ outputs:
       GROMACS topology file, containing the molecular topology in an ASCII
       readable format.
     type: File
-    outputSource: step7_genion/output_top_zip_file
+    outputSource: step5_genion/output_top_zip_file
         
 
 steps:
