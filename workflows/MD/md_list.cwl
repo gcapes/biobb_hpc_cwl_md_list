@@ -9,9 +9,9 @@ doc: |
 inputs:
   step1_pdb_file: File?
   step2_editconf_config: string
-  step4_gppion_config: string
+  step4_grompp_genion_config: string
   step5_genion_config: string
-  step6_gppmin_config: string
+  step6_grompp_min_config: string
   step8_make_ndx_config: string
   
   step9_grompp_nvt_config: string
@@ -86,7 +86,7 @@ steps:
     label: Add Ions - part 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
-      config: step4_gppion_config
+      config: step4_grompp_genion_config
       input_gro_path: step3_solvate/output_gro_file
       input_top_zip_path: step3_solvate/output_top_zip_file
     out: [output_tpr_file]
@@ -104,7 +104,7 @@ steps:
     label: Energetically Minimize the System - part 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
-      config: step6_gppmin_config
+      config: step6_grompp_min_config
       input_gro_path: step5_genion/output_gro_file
       input_top_zip_path: step5_genion/output_top_zip_file
     out: [output_tpr_file]
@@ -118,11 +118,11 @@ steps:
 
   step8_make_ndx:
     label: Generate GROMACS index file
-    run: 
+    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
     in:
       config: step8_make_ndx_config
       input_structure_path: step7_mdrun_min/output_gro_file
-    out: [output_ndx_path] 
+    out: [output_ndx_file]
 
 
   step9_grompp_nvt:
@@ -132,7 +132,7 @@ steps:
       config: step9_grompp_nvt_config
       input_gro_path: step7_mdrun_min/output_gro_file
       input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_path
+      input_ndx_path: step8_make_ndx/output_ndx_file
     out: [output_tpr_file]
 
   step10_mdrun_nvt:
@@ -150,7 +150,7 @@ steps:
       config: step11_grompp_npt_config
       input_gro_path: step10_mdrun_nvt/output_gro_file
       input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_path
+      input_ndx_path: step8_make_ndx/output_ndx_file
       input_cpt_path:  step10_mdrun_nvt/output_cpt_file
     out: [output_tpr_file]
 
@@ -169,7 +169,7 @@ steps:
       config: step13_grompp_md_config
       input_gro_path: step12_mdrun_npt/output_gro_file
       input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_path
+      input_ndx_path: step8_make_ndx/output_ndx_file
       input_cpt_path:  step12_mdrun_npt/output_cpt_file
     out: [output_tpr_file]
 
