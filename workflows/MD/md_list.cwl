@@ -7,16 +7,17 @@ doc: |
   CWL version of the md_list.cwl workflow for HPC.
 
 inputs:
-  step1_pdb_file: string
+  step1_pdb_file: File?
   step2_editconf_config: string
   step4_gppion_config: string
   step5_genion_config: string
   step6_gppmin_config: string
   step8_make_ndx_config: string
   
-  step11_gppnvt_config: string
-  step14_gppnpt_config: string
-  step17_gppmd_config: string
+  step9_grompp_nvt_config: string
+  step11_grompp_npt_config: string
+  step13_grompp_md_config: string
+  step14_mdrun_md_config: string
 
 outputs:
   trr:
@@ -117,7 +118,7 @@ steps:
 
   step8_make_ndx:
     label: Generate GROMACS index file
-    run:
+    run: 
     in:
       config: step8_make_ndx_config
       input_structure_path: step7_mdrun_min/output_gro_file
@@ -165,7 +166,7 @@ steps:
     label: Free Molecular Dynamics Simulation - part 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
-      config: step13_gropp_md_config
+      config: step13_grompp_md_config
       input_gro_path: step12_mdrun_npt/output_gro_file
       input_top_zip_path: step5_genion/output_top_zip_file
       input_ndx_path: step8_make_ndx/output_ndx_path
@@ -176,6 +177,7 @@ steps:
     label: Free Molecular Dynamics Simulation - part 2
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
+      config: step14_mdrun_md_config
       input_tpr_path: step13_grompp_md/output_tpr_file
     out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
 

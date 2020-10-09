@@ -4,7 +4,9 @@
 input_structures: 
 
 
-step1_pdb_file: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme.pdb'
+step1_pdb_file:
+  class: File
+  path: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme.pdb'
 
 step1_pdb2gmx_config: '{"gmxlib":"","force_field":"amber99sb-ildn"}' # gmxlib / ff
 
