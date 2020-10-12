@@ -7,7 +7,7 @@ doc: |
   CWL version of the md_list.cwl workflow for HPC.
 
 inputs:
-  step1_pdb_file: File?
+  step1_pdb_file: File
   step2_editconf_config: string
   step4_grompp_genion_config: string
   step5_genion_config: string
@@ -39,7 +39,7 @@ outputs:
     doc: |
       GROMACS portable checkpoint file, allowing to restore (continue) the
       simulation from the last step of the setup process.
-    type: File
+    type: File?
     outputSource: step14_mdrun_md/output_cpt_file
 
   tpr:
