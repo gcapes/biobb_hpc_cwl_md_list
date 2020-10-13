@@ -5,10 +5,13 @@ class: Workflow
 
 requirements:
   SubworkflowFeatureRequirement: {}
-
+  ScatterFeatureRequirement: {}
 
 inputs:
-  step1_pdb_file: File?
+  step1_pdb_files:
+    type:
+      type: array
+      items: File
   step2_editconf_config: string
   step4_grompp_genion_config: string
   step5_genion_config: string
@@ -21,51 +24,59 @@ inputs:
   step14_mdrun_md_config: string
 
 outputs:
-  trr:
-    label: Trajectories - Raw trajectory
-    doc: |
-      Raw trajectory from the free simulation step
-    type: File
-    outputSource: launch_workflow/trr
-    
-  gro:
-    label: Structures - Raw structure
-    doc: |
-      Raw structure from the free simulation step.
-    type: File
-    outputSource: launch_workflow/gro
+#  trr_array:
+#    label: Trajectories - Raw trajectory
+#    type:
+#      type: array
+#      items: File
+#    outputSource: launch_workflow/trr
+#    
+#  gro_array:
+#    label: Structures - Raw structure
+#    doc: |
+#      Raw structure from the free simulation step.
+#    type:
+#      type: array
+#      items: File
+#    outputSource: launch_workflow/gro
+#
+#  cpt_array:
+#    label: Checkpoint file
+#    doc: |
+#      GROMACS portable checkpoint file, allowing to restore (continue) the
+#      simulation from the last step of the setup process.
+#    type:
+#      type: array
+#      items: File
+#    outputSource: launch_workflow/cpt
 
-  cpt:
-    label: Checkpoint file
-    doc: |
-      GROMACS portable checkpoint file, allowing to restore (continue) the
-      simulation from the last step of the setup process.
-    type: File
-    outputSource: launch_workflow/cpt
+#  tpr_array:
+#    label: Topologies GROMACS portable binary run
+#    doc: |
+#      GROMACS portable binary run input file, containing the starting structure
+#      of the simulation, the molecular topology and all the simulation parameters.
+#    type:
+#      type: array
+#      items: File
+#    outputSource: launch_workflow/tpr
 
-  tpr:
-    label: Topologies GROMACS portable binary run
-    doc: |
-      GROMACS portable binary run input file, containing the starting structure
-      of the simulation, the molecular topology and all the simulation parameters.
-    type: File
-    outputSource: launch_workflow/tpr
-
-  top:
-    label: GROMACS topology file
+  top_array:
+    label: GROMACS topology files
     doc: |
       GROMACS topology file, containing the molecular topology in an ASCII
       readable format.
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: launch_workflow/top
-
 
   
 steps:
   launch_workflow:
     run: md_list.cwl
+    scatter: step1_pdb_file
     in:
-      step1_pdb_file: step1_pdb_file
+      step1_pdb_file: step1_pdb_files
       step2_editconf_config: step2_editconf_config
       step4_grompp_genion_config: step4_grompp_genion_config
       step5_genion_config: step5_genion_config
@@ -75,6 +86,6 @@ steps:
       step11_grompp_npt_config: step11_grompp_npt_config
       step13_grompp_md_config: step13_grompp_md_config
       step14_mdrun_md_config: step14_mdrun_md_config
-    out: [trr, gro, cpt, tpr, top]
+    out: [top]
 
 

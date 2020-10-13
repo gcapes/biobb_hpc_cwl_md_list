@@ -20,35 +20,35 @@ inputs:
   step14_mdrun_md_config: string
 
 outputs:
-  trr:
-    label: Trajectories - Raw trajectory
-    doc: |
-      Raw trajectory from the free simulation step
-    type: File
-    outputSource: step14_mdrun_md/output_trr_file
-    
-  gro:
-    label: Structures - Raw structure
-    doc: |
-      Raw structure from the free simulation step.
-    type: File
-    outputSource: step14_mdrun_md/output_gro_file
+#  trr:
+#    label: Trajectories - Raw trajectory
+#    doc: |
+#      Raw trajectory from the free simulation step
+#    type: File
+#    outputSource: step14_mdrun_md/output_trr_file
+#    
+#  gro:
+#    label: Structures - Raw structure
+#    doc: |
+#      Raw structure from the free simulation step.
+#    type: File
+#    outputSource: step14_mdrun_md/output_gro_file
+#
+#  cpt:
+#    label: Checkpoint file
+#    doc: |
+#      GROMACS portable checkpoint file, allowing to restore (continue) the
+#      simulation from the last step of the setup process.
+#    type: File?
+#    outputSource: step14_mdrun_md/output_cpt_file
 
-  cpt:
-    label: Checkpoint file
-    doc: |
-      GROMACS portable checkpoint file, allowing to restore (continue) the
-      simulation from the last step of the setup process.
-    type: File?
-    outputSource: step14_mdrun_md/output_cpt_file
-
-  tpr:
-    label: Topologies GROMACS portable binary run
-    doc: |
-      GROMACS portable binary run input file, containing the starting structure
-      of the simulation, the molecular topology and all the simulation parameters.
-    type: File
-    outputSource: step13_grompp_md/output_tpr_file
+#  tpr:
+#    label: Topologies GROMACS portable binary run
+#    doc: |
+#      GROMACS portable binary run input file, containing the starting structure
+#      of the simulation, the molecular topology and all the simulation parameters.
+#    type: File
+#    outputSource: step13_grompp_md/output_tpr_file
 
   top:
     label: GROMACS topology file
@@ -100,84 +100,84 @@ steps:
       input_top_zip_path: step3_solvate/output_top_zip_file
     out: [output_gro_file, output_top_zip_file]
 
-  step6_grompp_min:
-    label: Energetically Minimize the System - part 1
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step6_grompp_min_config
-      input_gro_path: step5_genion/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-    out: [output_tpr_file]
+#  step6_grompp_min:
+#    label: Energetically Minimize the System - part 1
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
+#    in:
+#      config: step6_grompp_min_config
+#      input_gro_path: step5_genion/output_gro_file
+#      input_top_zip_path: step5_genion/output_top_zip_file
+#    out: [output_tpr_file]
+#
+#  step7_mdrun_min:
+#    label: Energetically Minimize the System - part 2
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
+#    in:
+#      input_tpr_path: step6_grompp_min/output_tpr_file
+#    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file]
+#
+#  step8_make_ndx:
+#    label: Generate GROMACS index file
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
+#    in:
+#      config: step8_make_ndx_config
+#      input_structure_path: step7_mdrun_min/output_gro_file
+#    out: [output_ndx_file]
+#
+#
+#  step9_grompp_nvt:
+#    label: Equilibrate the System (NVT) - part 1
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
+#    in:
+#      config: step9_grompp_nvt_config
+#      input_gro_path: step7_mdrun_min/output_gro_file
+#      input_top_zip_path: step5_genion/output_top_zip_file
+#      input_ndx_path: step8_make_ndx/output_ndx_file
+#    out: [output_tpr_file]
+#
+#  step10_mdrun_nvt:
+#    label: Equilibrate the System (NVT) - part 2
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
+#    in:
+#      input_tpr_path: step9_grompp_nvt/output_tpr_file
+#    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
+#
+#
+#  step11_grompp_npt:
+#    label: Equilibrate the System (NPT) - part 1
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
+#    in:
+#      config: step11_grompp_npt_config
+#      input_gro_path: step10_mdrun_nvt/output_gro_file
+#      input_top_zip_path: step5_genion/output_top_zip_file
+#      input_ndx_path: step8_make_ndx/output_ndx_file
+#      input_cpt_path:  step10_mdrun_nvt/output_cpt_file
+#    out: [output_tpr_file]
+#
+#  step12_mdrun_npt:
+#    label: Equilibrate the System (NPT) - part 2
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
+#    in:
+#      input_tpr_path: step11_grompp_npt/output_tpr_file
+#    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
+#
+#
+#  step13_grompp_md:
+#    label: Free Molecular Dynamics Simulation - part 1
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
+#    in:
+#      config: step13_grompp_md_config
+#      input_gro_path: step12_mdrun_npt/output_gro_file
+#      input_top_zip_path: step5_genion/output_top_zip_file
+#      input_ndx_path: step8_make_ndx/output_ndx_file
+#      input_cpt_path:  step12_mdrun_npt/output_cpt_file
+#    out: [output_tpr_file]
 
-  step7_mdrun_min:
-    label: Energetically Minimize the System - part 2
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step6_grompp_min/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file]
-
-  step8_make_ndx:
-    label: Generate GROMACS index file
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
-    in:
-      config: step8_make_ndx_config
-      input_structure_path: step7_mdrun_min/output_gro_file
-    out: [output_ndx_file]
-
-
-  step9_grompp_nvt:
-    label: Equilibrate the System (NVT) - part 1
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step9_grompp_nvt_config
-      input_gro_path: step7_mdrun_min/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-    out: [output_tpr_file]
-
-  step10_mdrun_nvt:
-    label: Equilibrate the System (NVT) - part 2
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step9_grompp_nvt/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
-
-
-  step11_grompp_npt:
-    label: Equilibrate the System (NPT) - part 1
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step11_grompp_npt_config
-      input_gro_path: step10_mdrun_nvt/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-      input_cpt_path:  step10_mdrun_nvt/output_cpt_file
-    out: [output_tpr_file]
-
-  step12_mdrun_npt:
-    label: Equilibrate the System (NPT) - part 2
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step11_grompp_npt/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
-
-
-  step13_grompp_md:
-    label: Free Molecular Dynamics Simulation - part 1
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step13_grompp_md_config
-      input_gro_path: step12_mdrun_npt/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-      input_cpt_path:  step12_mdrun_npt/output_cpt_file
-    out: [output_tpr_file]
-
-  step14_mdrun_md:
-    label: Free Molecular Dynamics Simulation - part 2
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      config: step14_mdrun_md_config
-      input_tpr_path: step13_grompp_md/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
+#  step14_mdrun_md:
+#    label: Free Molecular Dynamics Simulation - part 2
+#    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
+#    in:
+#      config: step14_mdrun_md_config
+#      input_tpr_path: step13_grompp_md/output_tpr_file
+#    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
 
