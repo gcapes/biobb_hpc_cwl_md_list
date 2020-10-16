@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 
-cwlVersion: v1.0
+cwlVersion: v1.2.0-dev3
 class: Workflow
 
 requirements:
@@ -24,51 +24,14 @@ inputs:
   step14_mdrun_md_config: string
 
 outputs:
-#  trr_array:
-#    label: Trajectories - Raw trajectory
-#    type:
-#      type: array
-#      items: File
-#    outputSource: launch_workflow/trr
-#    
-#  gro_array:
-#    label: Structures - Raw structure
-#    doc: |
-#      Raw structure from the free simulation step.
-#    type:
-#      type: array
-#      items: File
-#    outputSource: launch_workflow/gro
-#
-#  cpt_array:
-#    label: Checkpoint file
-#    doc: |
-#      GROMACS portable checkpoint file, allowing to restore (continue) the
-#      simulation from the last step of the setup process.
-#    type:
-#      type: array
-#      items: File
-#    outputSource: launch_workflow/cpt
-
-#  tpr_array:
-#    label: Topologies GROMACS portable binary run
-#    doc: |
-#      GROMACS portable binary run input file, containing the starting structure
-#      of the simulation, the molecular topology and all the simulation parameters.
-#    type:
-#      type: array
-#      items: File
-#    outputSource: launch_workflow/tpr
-
-  top_array:
-    label: GROMACS topology files
+  top_dir:
+    label: Simulation Data
     doc: |
-      GROMACS topology file, containing the molecular topology in an ASCII
-      readable format.
+      Assorted data files output by the workflow
     type:
       type: array
-      items: File
-    outputSource: launch_workflow/top
+      items: Directory
+    outputSource: launch_workflow/dir
 
   
 steps:
@@ -86,6 +49,6 @@ steps:
       step11_grompp_npt_config: step11_grompp_npt_config
       step13_grompp_md_config: step13_grompp_md_config
       step14_mdrun_md_config: step14_mdrun_md_config
-    out: [top]
+    out: [dir]
 
 
