@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 
-cwlVersion: v1.2.0-dev3
+cwlVersion: v1.2
 class: Workflow
 label: Example of setting up a simulation system
 doc: |
