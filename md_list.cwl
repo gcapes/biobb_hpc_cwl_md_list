@@ -38,7 +38,7 @@ outputs:
       step5_genion/output_top_zip_file:  GROMACS topology file, containing the molecular topology in an ASCII
                                          readable format.
     type: Directory
-    outputSource: step15_gather_outputs/step15_work_dir
+    outputSource: step15_gather_outputs/project_work_dir
 
 steps:
   step1_pdb2gmx:
@@ -162,8 +162,8 @@ steps:
   step15_gather_outputs:
     label: Archiving outputs to be returned to user
     in:
-      step15_project_file: step1_pdb_file
-      step15_files: 
+      external_project_file: step1_pdb_file
+      external_files: 
         source:
           - step14_mdrun_md/output_trr_file
           - step14_mdrun_md/output_gro_file
@@ -172,61 +172,9 @@ steps:
           - step5_genion/output_top_zip_file
         linkMerge: merge_flattened
         pickValue: all_non_null # this is needed to avoid null values causing problems, but is only available from v1.2.0 onwards
-    out: [step15_work_dir]
-    run:
-      class: Workflow
-      inputs:
-        step15_project_file: File
-        step15_files: File[]
-      outputs:
-        step15_work_dir: 
-          label: Output archive directory
-          doc: |
-            workflow output directory, containing required output files
-          type: Directory
-          outputSource: stepb_move_files/output_dir
-      steps:
-        
-        stepa_create_dir:
-          in:
-            stepa_project_file: step15_project_file
-          out: [output_dir]
-          run: 
-            class: CommandLineTool
-            baseCommand: mkdir
-            arguments: [ $(inputs.stepa_project_file.basename) ]
-            inputs:
-              stepa_project_file: File
-            outputs:
-              output_dir:
-                type: Directory
-                outputBinding:
-                  glob: "$(inputs.stepa_project_file.basename)"
-        
-        stepb_move_files:
-          in:
-            stepb_project_dir: stepa_create_dir/output_dir
-            stepb_files: step15_files
-          out: [output_dir]
-          run:
-            class: CommandLineTool 
-            baseCommand: mv
-            requirements:
-              InitialWorkDirRequirement:
-                listing:
-                  - $(inputs.stepb_project_dir)
-            arguments: [ $(inputs.stepb_files), $(inputs.stepb_project_dir.basename) ]
-            inputs:
-              stepb_project_dir: Directory 
-              stepb_files: File[]
-            outputs:
-              output_dir:
-                type: Directory
-                outputBinding:
-                  glob: "$(inputs.stepb_project_dir.basename)"
-
-
-
+    run: md_gather.cwl
+    out: [project_work_dir]
+    
 
 
 
