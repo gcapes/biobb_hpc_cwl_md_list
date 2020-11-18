@@ -1,0 +1,33 @@
+# Protein MD-Setup CWL workflow with BioExcel building blocks - Input YAML configuration file
+# https://github.com/bioexcel/biobb_wf_md_setup
+
+
+  
+step1_pdb_file:
+  class: File
+  #path: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme.pdb'
+  path: 'test_data/lys2.pdb'
+  format: 'http://edamontology.org/format_1476'
+
+step14_mdrun_md_output_trr_file: 
+  class: File
+  path: 'test_data/output.trr'
+
+step14_mdrun_md_output_gro_file:
+  class: File
+  path: 'test_data/output.gro'
+
+step14_mdrun_md_output_cpt_file: null
+  #class: File
+  #path: 'test_data/output.cpt'
+
+step13_grompp_md_output_tpr_file:  
+  class: File
+  path: 'test_data/output.tpr'
+
+step5_genion_output_top_zip_file:
+  class: File
+  path: 'test_data/output.top.zip'
+
+
+
