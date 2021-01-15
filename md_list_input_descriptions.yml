@@ -4,15 +4,15 @@
 
 step1_pdb_files: 
   - class: File
-    path: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme.pdb'
+    path: './example_input_files/lysozyme.pdb'
     format: 'http://edamontology.org/format_1476'
   - class: File
-    path: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme2.pdb'
+    path: './example_input_files/lysozyme2.pdb'
     format: 'http://edamontology.org/format_1476'
   
 step1_pdb_file:
   class: File
-  path: '/Users/mbessdl2/work/manchester/BioExcel/BSC_data/test_data/lysozyme.pdb'
+  path: './example_input_files/lysozyme.pdb'
   format: 'http://edamontology.org/format_1476'
 
 step1_pdb2gmx_config: '{"gmxlib":"","force_field":"amber99sb-ildn"}' # gmxlib / ff
