@@ -6,23 +6,25 @@ Below the workflow is briefly described, followed by installation instructions, 
 
 ## md\_list / md\_launch
 
-The *md\_list* workflow performs a molecular dynamics simulation on a given structure listed in the YAML properties file.
+The `md_list` workflow performs a molecular dynamics simulation on a given structure listed in the YAML properties file.
 
-The *md\_launch* workflow will run the md\_list workflow multiple times (using scatter), passing it structures from a list defined in the YAML properties file.
+The `md_launch` workflow will run the `md_list` workflow multiple times (using scatter), passing it structures from a list defined in the YAML properties file.
 
 ## Getting Started
 
 ### Requirements
 
-* [CWLtool](https://github.com/common-workflow-language/cwltool) or [TOIL](https://toil.ucsc-cgl.org/)
+* [CWLtool](https://github.com/common-workflow-language/cwltool) or [Toil](https://toil.ucsc-cgl.org/)
 * [Docker](https://www.docker.com/) or [Singularity](https://sylabs.io/)
 * [Git](https://git-scm.com/)
 * [Git Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 
-If you are working on your own machine then instructions for installing *git* and *docker* are given on their websites. If you are working on HPC then you will need *singularity* and *toil* rather than docker and CWLtool. Git and singularity should already be installed, while the installation of TOIL (if this is not installed already) will be covered below.
+If you are working on your own machine then instructions for installing **Git** and **Docker** are given on their websites. You will be able to use either CWLtool (which is the reference implementation of CWL) or toil.
+
+If you are working on HPC then you will need **Singularity** and **Toil** rather than Docker and CWLtool. Git and Singularity should already be installed, while the installation of Toil (if this is not installed already) will be covered below.
 
 Version requirements:
-* CWL standard 1.2.0 or more recent (also tested )
+* The workflow engine should support CWL standard 1.2 or more recent (versions tested: 1.2.0-dev5 in toil; 1.2 in CWLtool)
 
 ### Setup
 
