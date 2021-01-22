@@ -1,0 +1,10 @@
+name: toilcwl
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.7
+  - nodejs
+  - toil
+
