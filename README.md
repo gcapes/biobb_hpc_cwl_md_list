@@ -35,11 +35,26 @@ git clone --recurse-submodules https://github.com/douglowe/biobb_hpc_cwl_md_list
 
 #### CWLtool
 
-This can be installed via `conda`.
+This can be installed via `conda`, with the command:
+```
+conda env create -f install/env_cwlrunner.yml
+```
+To install a javascript interpreter (if you do not already have one on your system) use:
+```
+conda env create -f install/env_cwlrunner_nodejs.cwl
+```
+
 
 #### TOIL
 
-This is best installed using `conda` and `pip`. 
+This can be installed using `conda`, with the command:
+```
+conda env create -f install/env_toil.yml
+```
+To install a javascript interpreter (if you do not already have one on your system) use:
+```
+conda env create -f install/env_toil_nodejs.cwl
+```
 
 
 ### Running the Workflows
