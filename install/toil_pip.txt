@@ -1,3 +1,0 @@
-cwl-utils --install-option="--prefix=${CONDA_PREFIX}"
-toil[cwl] --install-option="--prefix=${CONDA_PREFIX}"
-
