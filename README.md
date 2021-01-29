@@ -59,7 +59,54 @@ conda env create -f install/env_toil_nodejs.cwl
 
 ### Running the Workflows
 
+This workflow requires:
+1. PDB file describing the molecule of interest (see example `example_input_files/lysozyme.pdb`).
+2. Configuration file (see example `md_list_input_descriptions.yml`).
 
+#### CWL
+
+To run the workflow use:
+```
+cwl-runner md_launch.cwl md_list_input_descriptions.yml
+```
+
+#### TOIL
+
+TOIL (at the time of writing, version 5.2.0) does not yet fully support the CWL v1.2.0
+standard, so you will need to edit `md_list.cwl` to use: `cwlVersion: v1.2.0-dev5`. 
+
+To use the toil engine several environmental variables will need to be set. These will be 
+described in more detail on the TOIL documentation page, below we only highlight the 
+variables we found useful to set.
+
+On all HPC systems it is wise to check the temporary directory variable (`TMPDIR`) - for 
+TOIL this needs to be on a disk accessible by all compute nodes that will be used. 
+
+For Singularity set the variables `CWL_SINGULARITY_CACHE` and `SINGULARITY_CACHEDIR` 
+(again on a disk accessible by all compute nodes).
+
+##### GridEngine (SGE)
+
+For SGE set:
+1. `TOIL_GRIDENGINE_PE` (this is the job queue to select)
+2. `TOIL_GRIDENGINE_ARGS`
+
+To execute the workflow use:
+```
+toil-cwl-runner --enable-dev --batchSystem grid_engine --singularity --defaultCores 1 md_launch.cwl md_list_input_descriptions.yml
+```
+This example sets the number of cores used to 1 - we recommend you test your setup
+as a serial job before trying to use parallel compute nodes. When changing to a parallel compute job change the `--defaultCores` flag.
+
+##### SLURM
+
+For Slurm job managers set:
+1. `TOIL_SLURM_ARGS`, this carries all the required slurm job flags, e.g. `"--nodes=1 --ntasks-per-node=64 --time=0:10:0 --partition=standard --qos=standard --account=[XXX] --export=ALL"`
+
+To execute the workflow use:
+```
+toil-cwl-runner --enable-dev --batchSystem slurm --singularity md_launch.cwl md_list_input_descriptions.yml
+```
 
 
 
