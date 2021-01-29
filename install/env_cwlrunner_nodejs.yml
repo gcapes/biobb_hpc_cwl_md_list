@@ -1,0 +1,8 @@
+name: cwlrunner_nodejs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cwl_runner
+  - nodejs
+

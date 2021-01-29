@@ -1,0 +1,7 @@
+name: cwlrunner
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cwl_runner
+
