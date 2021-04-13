@@ -1,0 +1,11 @@
+# Basic inputs for testing Gather script.
+
+external_files:
+  - class: File
+    path: './results_a.txt'
+  - class: File
+    path: './results_b.txt'
+
+external_project_file:
+  class: File
+  path: './project_file.txt'
