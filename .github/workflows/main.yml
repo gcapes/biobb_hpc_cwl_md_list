@@ -1,0 +1,34 @@
+name: CI
+
+# We can specify which Github events will trigger a CI build
+on: [push, pull_request]
+
+# now define a single job 'build' (but could define more)
+jobs:
+
+  build:
+
+    # we can also specify the OS to run tests on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
+
+    # a job is a seq of steps
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        activate-environment: cwlrunner_nodejs
+        environment-file: install/env_cwlrunner_nodejs.yml
+
+    - name: Validate Workflow
+      run: |
+        conda run -n cwlrunner_nodejs cwltool --validate md_list.cwl
