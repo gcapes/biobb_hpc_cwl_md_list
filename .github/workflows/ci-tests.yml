@@ -28,8 +28,14 @@ jobs:
         activate-environment: cwlrunner_nodejs
         environment-file: install/env_cwlrunner_nodejs.yml
 
-    - name: Validate Workflows
+    - name: Validate Gather
       run: |
         conda run -n cwlrunner_nodejs cwltool --validate md_gather.cwl
+        
+    - name: Validate List
+      run: |
         conda run -n cwlrunner_nodejs cwltool --validate md_list.cwl
+
+    - name: Validate Launch
+      run: |
         conda run -n cwlrunner_nodejs cwltool --validate md_launch.cwl
