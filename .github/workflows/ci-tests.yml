@@ -1,14 +1,11 @@
-name: CI
+name: CI testing
 
-# We can specify which Github events will trigger a CI build
 on: [push, pull_request]
 
-# now define a single job 'build' (but could define more)
 jobs:
 
-  build:
+  workflow_validation_tests:
 
-    # we can also specify the OS to run tests on
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -31,6 +28,8 @@ jobs:
         activate-environment: cwlrunner_nodejs
         environment-file: install/env_cwlrunner_nodejs.yml
 
-    - name: Validate Workflow
+    - name: Validate Workflows
       run: |
+        conda run -n cwlrunner_nodejs cwltool --validate md_gather.cwl
         conda run -n cwlrunner_nodejs cwltool --validate md_list.cwl
+        conda run -n cwlrunner_nodejs cwltool --validate md_launch.cwl
