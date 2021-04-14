@@ -59,7 +59,7 @@ jobs:
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         activate-environment: cwlrunner_nodejs
-        environment-file: install/env_cwlrunner_nodejs.yml
+        environment-file: install/env_cwlrunner.yml
 
     - name: Validate Gather
       run: |
