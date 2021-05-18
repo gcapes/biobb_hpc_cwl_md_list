@@ -1,0 +1,35 @@
+# Protein MD-Setup CWL workflow with BioExcel building blocks - Input YAML configuration file
+# https://github.com/bioexcel/biobb_wf_md_setup
+
+
+step0_mutate_list: 
+  - '{"mutation_list":"WT"}'
+  - '{"mutation_list":"A:Ala369Ser"}'
+  
+step0_pdb_file:
+  class: File
+  path: './example_input_files/hACE.pdb'
+  format: 'http://edamontology.org/format_1476'
+
+step1_pdb2gmx_config: '{"gmxlib":"","force_field":"amber99sb-ildn"}' # gmxlib / ff
+
+step2_editconf_config: '{"box_type": "octahedron", "distance_to_molecule": 0.8}' # box_type / box_size
+
+
+step4_grompp_genion_config: '{"mdp":{"type":"minimization","nsteps":"5000"}}'  # "gmxlib":"", --- the gromacs library path (don't use here?)
+
+step5_genion_config: '{"neutral": "True","concentration":0.05}'  #concentration
+
+step6_grompp_min_config: '{"mdp": {"type":"minimization", "nsteps":"5000", "emtol":"500"}}' #"gmxlib":"",
+
+step8_make_ndx_config: '{}' #'{"selection":"Protein"}'
+
+step9_grompp_nvt_config: '{"mdp":{"type":"nvt", "nsteps":"50000", "nstxout":"100000"}}' #, "tc_grps":"DNA Water_and_ions"}}' # "gmxlib":"",
+
+step11_grompp_npt_config: '{"mdp":{"type":"npt", "nsteps":"50000", "nstxout":"100000"}}' #, "tc_grps":"DNA Water_and_ions"}}' #"gmxlib":"",
+
+step13_grompp_md_config: '{"mdp":{"type":"free", "nsteps":"500000", "nstxout":"100000"}}' #, "gmxlib":"","tc_grps":"DNA Water_and_ions"}}'
+
+step14_mdrun_md_config: '{}' #'{"mpi_bin":"mpirun", "gmx_path":"gmx_mpi"}'
+
+
