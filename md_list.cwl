@@ -21,17 +21,37 @@ requirements:
 
 
 inputs:
-  step1_pdb_file: File
-  step2_editconf_config: string
-  step4_grompp_genion_config: string
-  step5_genion_config: string
-  step6_grompp_min_config: string
-  step8_make_ndx_config: string
-  
-  step9_grompp_nvt_config: string
-  step11_grompp_npt_config: string
-  step13_grompp_md_config: string
-  step14_mdrun_md_config: string
+  step1_pdb_file:
+    label: Input file
+    doc: Molecule to process (PDB format)
+    type: File
+  step2_editconf_config:
+    label: Editconf configuration dictionary
+    type: string
+  step4_grompp_genion_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step5_genion_config:
+    label: Genion configuration dictionary
+    type: string
+  step6_grompp_min_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step8_make_ndx_config:
+    label: GROMACS make_ndx configuration dictionary
+    type: string
+  step9_grompp_nvt_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step11_grompp_npt_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step13_grompp_md_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step14_mdrun_md_config:
+    label: GROMACS mdrun configuration dictionary
+    type: string
 
 outputs:
   dir:
@@ -52,6 +72,7 @@ outputs:
 steps:
   step1_pdb2gmx:
     label: Create Protein System Topology
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.pdb2gmx
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/pdb2gmx.cwl
     in:
       input_pdb_path: step1_pdb_file
@@ -59,6 +80,7 @@ steps:
 
   step2_editconf:
     label: Create Solvent Box
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.editconf
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/editconf.cwl
     in:
       input_gro_path: step1_pdb2gmx/output_gro_file
@@ -66,6 +88,7 @@ steps:
 
   step3_solvate:
     label: Fill the Box with Water Molecules
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.solvate
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/solvate.cwl
     in:
       input_solute_gro_path: step2_editconf/output_gro_file
@@ -74,6 +97,7 @@ steps:
 
   step4_grompp_genion:
     label: Add Ions - part 1
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step4_grompp_genion_config
@@ -83,6 +107,7 @@ steps:
 
   step5_genion:
     label: Add Ions - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.genion
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/genion.cwl
     in:
       config: step5_genion_config
@@ -92,6 +117,7 @@ steps:
 
   step6_grompp_min:
     label: Energetically Minimize the System - part 1
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step6_grompp_min_config
@@ -101,6 +127,7 @@ steps:
 
   step7_mdrun_min:
     label: Energetically Minimize the System - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step6_grompp_min/output_tpr_file
@@ -108,6 +135,7 @@ steps:
 
   step8_make_ndx:
     label: Generate GROMACS index file
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.make_ndx
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
     in:
       config: step8_make_ndx_config
@@ -116,6 +144,7 @@ steps:
 
   step9_grompp_nvt:
     label: Equilibrate the System (NVT) - part 1
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step9_grompp_nvt_config
@@ -126,6 +155,7 @@ steps:
 
   step10_mdrun_nvt:
     label: Equilibrate the System (NVT) - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step9_grompp_nvt/output_tpr_file
@@ -133,6 +163,7 @@ steps:
 
   step11_grompp_npt:
     label: Equilibrate the System (NPT) - part 1
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step11_grompp_npt_config
@@ -144,6 +175,7 @@ steps:
 
   step12_mdrun_npt:
     label: Equilibrate the System (NPT) - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step11_grompp_npt/output_tpr_file
@@ -151,6 +183,7 @@ steps:
 
   step13_grompp_md:
     label: Free Molecular Dynamics Simulation - part 1
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step13_grompp_md_config
@@ -162,6 +195,7 @@ steps:
 
   step14_mdrun_md:
     label: Free Molecular Dynamics Simulation - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       config: step14_mdrun_md_config
@@ -170,17 +204,21 @@ steps:
 
   step15_gather_outputs:
     label: Archiving outputs to be returned to user
+    doc: >
+      This uses the local md_gather.cwl workflow to gather all desired output files.
+      A filter for missing files is applied (pickValue: all_non_null), which requires
+      using a runner which is compliant with v1.2.0, or later, CWL standards.
     in:
       external_project_file: step1_pdb_file
       external_files: 
         source:
           - step14_mdrun_md/output_trr_file
           - step14_mdrun_md/output_gro_file
-          - step14_mdrun_md/output_cpt_file  # we have to run with v1.2.0, or this null value breaks the workflow!
+          - step14_mdrun_md/output_cpt_file
           - step13_grompp_md/output_tpr_file 
           - step5_genion/output_top_zip_file
         linkMerge: merge_flattened
-        pickValue: all_non_null # this is needed to avoid null values causing problems, but is only available from v1.2.0 onwards
+        pickValue: all_non_null
     run: md_gather.cwl
     out: [project_work_dir]
     

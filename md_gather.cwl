@@ -1,12 +1,10 @@
 class: ExpressionTool
 cwlVersion: v1.1
 doc: |
-  This javascript takes two inputs, a list of 
-  files, a project file, and an optional string. 
-  It will create a directory named after the 
-  project file and optional string, populate
-  that directory with the files in the list, and
-  return the directory.
+  This javascript takes three inputs: a list of files; a project file;
+  and an optional string. It will create a directory named after the
+  project file and optional string, populate that directory with the
+  files in the list, and return the directory.
 requirements:
   InlineJavascriptRequirement: {}
 inputs:

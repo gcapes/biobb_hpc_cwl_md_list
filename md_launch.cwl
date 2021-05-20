@@ -25,9 +25,9 @@ inputs:
 
 outputs:
   top_dir:
-    label: Simulation Data
+    label: collected simulation output data
     doc: |
-      Assorted data files output by the workflow
+      Collection of output directories returned by the md_list.cwl workflows.
     type:
       type: array
       items: Directory
@@ -36,6 +36,14 @@ outputs:
   
 steps:
   launch_workflow:
+    doc: |
+      Calls the local md_list.cwl workflow, scattering over the list of molecular input
+      files (step1_pdb_files). One input file will be passed to each instance of the 
+      workflow. All other input configuration strings are passed unchanged to each instance.
+      
+      Each md_list.cwl workflow will return a directory containing the output files defined
+      within the workflow. Each directory returned will be named after the molecular input 
+      file passed to that workflow.
     run: md_list.cwl
     scatter: step1_pdb_file
     in:
