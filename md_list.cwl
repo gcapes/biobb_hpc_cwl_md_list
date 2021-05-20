@@ -2,9 +2,18 @@
 
 cwlVersion: v1.2
 class: Workflow
-label: Example of setting up a simulation system
-doc: |
-  CWL version of the md_list.cwl workflow for HPC.
+label: Molecular Dynamics Simulation.
+doc: >
+  CWL version of the md_list.cwl workflow for HPC. This performs a system setup and runs
+  a molecular dynamics simulation on the structure passed to this workflow. This workflow
+  uses the md_gather.cwl sub-workflow to gather the outputs together to return these.
+  
+  To work with more than one structure this workflow can be called from either the
+  md_launch.cwl workflow, or the md_launch_mutate.cwl workflow. These use scatter for
+  parallelising the workflow. md_launch.cwl operates on a list of individual input molecule
+  files. md_launch_mutate.cwl operates on a single input molecule file, and a list of
+  mutations to apply to that molecule. Within that list of mutations, a value of 'WT' will
+  indicate that the molecule should be simulated without any mutation being applied.
 
 requirements:
   SubworkflowFeatureRequirement: {}
