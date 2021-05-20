@@ -1,0 +1,70 @@
+name: CI testing
+
+on: [push, pull_request]
+
+jobs:
+
+  workflow_validation_tests:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
+
+    # a job is a seq of steps
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        activate-environment: cwlrunner_nodejs
+        environment-file: install/env_cwlrunner.yml
+
+    - name: Validate List
+      run: |
+        conda run -n cwlrunner_nodejs cwltool --validate md_list.cwl
+
+    - name: Validate Launch
+      run: |
+        conda run -n cwlrunner_nodejs cwltool --validate md_launch.cwl
+    
+        
+  gather_tests:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: [3.8]
+
+    # a job is a seq of steps
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        activate-environment: cwlrunner_nodejs
+        environment-file: install/env_cwlrunner.yml
+
+    - name: Validate Gather
+      run: |
+        conda run -n cwlrunner_nodejs cwltool --validate md_gather.cwl
+        
+    - name: Test Gather
+      run: |
+        conda run -n cwlrunner_nodejs cwltool md_gather.cwl tests/gather/gather_test.yml
