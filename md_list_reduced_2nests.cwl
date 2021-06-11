@@ -1,0 +1,193 @@
+#!/usr/bin/env cwl-runner
+
+cwlVersion: v1.2
+class: Workflow
+label: Molecular Dynamics Simulation.
+doc: >
+  CWL version of the md_list.cwl workflow for HPC. This performs a system setup and runs
+  a molecular dynamics simulation on the structure passed to this workflow. This workflow
+  uses the md_gather.cwl sub-workflow to gather the outputs together to return these.
+  
+  To work with more than one structure this workflow can be called from either the
+  md_launch.cwl workflow, or the md_launch_mutate.cwl workflow. These use scatter for
+  parallelising the workflow. md_launch.cwl operates on a list of individual input molecule
+  files. md_launch_mutate.cwl operates on a single input molecule file, and a list of
+  mutations to apply to that molecule. Within that list of mutations, a value of 'WT' will
+  indicate that the molecule should be simulated without any mutation being applied.
+
+requirements:
+  SubworkflowFeatureRequirement: {}
+  MultipleInputFeatureRequirement: {}
+
+
+inputs:
+  step1_pdb_file:
+    label: Input file
+    doc: Molecule to process (PDB format)
+    type: File
+  step2_editconf_config:
+    label: Editconf configuration dictionary
+    type: string
+  step4_grompp_genion_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step5_genion_config:
+    label: Genion configuration dictionary
+    type: string
+  step6_grompp_min_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step8_make_ndx_config:
+    label: GROMACS make_ndx configuration dictionary
+    type: string
+  step9_grompp_nvt_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step11_grompp_npt_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step13_grompp_md_config:
+    label: GROMACS grompp configuration dictionary
+    type: string
+  step14_mdrun_md_config:
+    label: GROMACS mdrun configuration dictionary
+    type: string
+
+outputs:
+  dir:
+    label: whole workflow output
+    doc: |
+      outputs from the whole workflow, containing these optional files:
+      step14_mdrun_md/output_trr_file:   Raw trajectory from the free simulation step
+      step14_mdrun_md/output_gro_file:   Raw structure from the free simulation step.
+      step14_mdrun_md/output_cpt_file:   GROMACS portable checkpoint file, allowing to restore (continue) the
+                                         simulation from the last step of the setup process.
+      step13_grompp_md/output_tpr_file:  GROMACS portable binary run input file, containing the starting structure
+                                         of the simulation, the molecular topology and all the simulation parameters.
+      step5_genion/output_top_zip_file:  GROMACS topology file, containing the molecular topology in an ASCII
+                                         readable format.
+    type: Directory
+    outputSource: step15_gather_outputs/project_work_dir
+
+steps:
+  subworkflow_configure:
+    in:
+      step1_pdb_file: step1_pdb_file
+    out: [output_top_zip_file, output_gro_file]
+ 
+    run:
+      class: Workflow
+      inputs:
+        step1_pdb_file: File
+      outputs:
+        output_top_zip_file:
+          type: File
+          outputSource: step1_pdb2gmx/output_top_zip_file
+        output_gro_file:
+          type: File
+          outputSource: step2_editconf/output_gro_file
+
+      steps:
+        step1_pdb2gmx:
+          label: Create Protein System Topology
+          doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.pdb2gmx
+          requirements:
+            ResourceRequirement:
+              coresMax: 1
+          run: biobb/biobb_adapters/cwl/biobb_md/gromacs/pdb2gmx.cwl
+          in:
+            input_pdb_path: step1_pdb_file
+          out: [output_gro_file, output_top_zip_file]
+
+        step2_editconf:
+          label: Create Solvent Box
+          doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.editconf
+          requirements:
+            ResourceRequirement:
+              coresMax: 1
+          run: biobb/biobb_adapters/cwl/biobb_md/gromacs/editconf.cwl
+          in:
+            input_gro_path: step1_pdb2gmx/output_gro_file
+          out: [output_gro_file]
+
+  subworkflow_solv_genion:
+    in:
+      input_gro_file: subworkflow_configure/output_gro_file
+      input_top_zip_file: subworkflow_configure/output_top_zip_file
+      step4_grompp_genion_config: step4_grompp_genion_config
+    out: [output_top_zip_file, output_tpr_file]
+    
+    run:
+      class: Workflow
+      inputs:
+        input_gro_file: File
+        input_top_zip_file: File
+        step4_grompp_genion_config: string
+      outputs:
+        output_top_zip_file:
+          type: File
+          outputSource: step3_solvate/output_top_zip_file
+        output_tpr_file:
+          type: File
+          outputSource: step4_grompp_genion/output_tpr_file
+    
+      steps:
+        step3_solvate:
+          label: Fill the Box with Water Molecules
+          doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.solvate
+          requirements:
+            ResourceRequirement:
+              coresMax: 1
+          run: biobb/biobb_adapters/cwl/biobb_md/gromacs/solvate.cwl
+          in:
+            input_solute_gro_path: input_gro_file
+            input_top_zip_path: input_top_zip_file
+          out: [output_gro_file, output_top_zip_file]
+
+        step4_grompp_genion:
+          label: Add Ions - part 1
+          doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+          requirements:
+            ResourceRequirement:
+              coresMax: 1
+          run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
+          in:
+            config: step4_grompp_genion_config
+            input_gro_path: step3_solvate/output_gro_file
+            input_top_zip_path: step3_solvate/output_top_zip_file
+          out: [output_tpr_file]
+
+  step5_genion:
+    label: Add Ions - part 2
+    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.genion
+    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/genion.cwl
+    in:
+      config: step5_genion_config
+      input_tpr_path: subworkflow_solv_genion/output_tpr_file
+      input_top_zip_path: subworkflow_solv_genion/output_top_zip_file
+    out: [output_gro_file, output_top_zip_file]
+
+  step15_gather_outputs:
+    label: Archiving outputs to be returned to user
+    doc: >
+      This uses the local md_gather.cwl workflow to gather all desired output files.
+      A filter for missing files is applied (pickValue: all_non_null), which requires
+      using a runner which is compliant with v1.2.0, or later, CWL standards.
+    in:
+      external_project_file: step1_pdb_file
+      external_files: 
+        source:
+          - step5_genion/output_top_zip_file
+        linkMerge: merge_flattened
+        pickValue: all_non_null
+    run: md_gather.cwl
+    out: [project_work_dir]
+    
+
+
+
+
+
+
+
+
