@@ -95,6 +95,9 @@ steps:
   step3_solvate:
     label: Fill the Box with Water Molecules
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.solvate
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/solvate.cwl
     in:
       input_solute_gro_path: step2_editconf/output_gro_file
@@ -121,93 +124,6 @@ steps:
       input_top_zip_path: step3_solvate/output_top_zip_file
     out: [output_gro_file, output_top_zip_file]
 
-  step6_grompp_min:
-    label: Energetically Minimize the System - part 1
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step6_grompp_min_config
-      input_gro_path: step5_genion/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-    out: [output_tpr_file]
-
-  step7_mdrun_min:
-    label: Energetically Minimize the System - part 2
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step6_grompp_min/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file]
-
-  step8_make_ndx:
-    label: Generate GROMACS index file
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.make_ndx
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
-    in:
-      config: step8_make_ndx_config
-      input_structure_path: step7_mdrun_min/output_gro_file
-    out: [output_ndx_file]
-
-  step9_grompp_nvt:
-    label: Equilibrate the System (NVT) - part 1
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step9_grompp_nvt_config
-      input_gro_path: step7_mdrun_min/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-    out: [output_tpr_file]
-
-  step10_mdrun_nvt:
-    label: Equilibrate the System (NVT) - part 2
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step9_grompp_nvt/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
-
-  step11_grompp_npt:
-    label: Equilibrate the System (NPT) - part 1
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step11_grompp_npt_config
-      input_gro_path: step10_mdrun_nvt/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-      input_cpt_path:  step10_mdrun_nvt/output_cpt_file
-    out: [output_tpr_file]
-
-  step12_mdrun_npt:
-    label: Equilibrate the System (NPT) - part 2
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      input_tpr_path: step11_grompp_npt/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
-
-  step13_grompp_md:
-    label: Free Molecular Dynamics Simulation - part 1
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
-    in:
-      config: step13_grompp_md_config
-      input_gro_path: step12_mdrun_npt/output_gro_file
-      input_top_zip_path: step5_genion/output_top_zip_file
-      input_ndx_path: step8_make_ndx/output_ndx_file
-      input_cpt_path:  step12_mdrun_npt/output_cpt_file
-    out: [output_tpr_file]
-
-  step14_mdrun_md:
-    label: Free Molecular Dynamics Simulation - part 2
-    doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
-    run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
-    in:
-      config: step14_mdrun_md_config
-      input_tpr_path: step13_grompp_md/output_tpr_file
-    out: [output_trr_file, output_gro_file, output_edr_file, output_log_file, output_cpt_file]
-
   step15_gather_outputs:
     label: Archiving outputs to be returned to user
     doc: >
@@ -218,10 +134,6 @@ steps:
       external_project_file: step1_pdb_file
       external_files: 
         source:
-          - step14_mdrun_md/output_trr_file
-          - step14_mdrun_md/output_gro_file
-          - step14_mdrun_md/output_cpt_file
-          - step13_grompp_md/output_tpr_file 
           - step5_genion/output_top_zip_file
         linkMerge: merge_flattened
         pickValue: all_non_null
