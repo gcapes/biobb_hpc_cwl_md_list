@@ -73,6 +73,9 @@ steps:
   step1_pdb2gmx:
     label: Create Protein System Topology
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.pdb2gmx
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/pdb2gmx.cwl
     in:
       input_pdb_path: step1_pdb_file
@@ -81,6 +84,9 @@ steps:
   step2_editconf:
     label: Create Solvent Box
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.editconf
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/editconf.cwl
     in:
       input_gro_path: step1_pdb2gmx/output_gro_file
@@ -89,6 +95,9 @@ steps:
   step3_solvate:
     label: Fill the Box with Water Molecules
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.solvate
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/solvate.cwl
     in:
       input_solute_gro_path: step2_editconf/output_gro_file
@@ -98,6 +107,9 @@ steps:
   step4_grompp_genion:
     label: Add Ions - part 1
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step4_grompp_genion_config
@@ -108,6 +120,9 @@ steps:
   step5_genion:
     label: Add Ions - part 2
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.genion
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/genion.cwl
     in:
       config: step5_genion_config
@@ -118,6 +133,9 @@ steps:
   step6_grompp_min:
     label: Energetically Minimize the System - part 1
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step6_grompp_min_config
@@ -128,6 +146,9 @@ steps:
   step7_mdrun_min:
     label: Energetically Minimize the System - part 2
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step6_grompp_min/output_tpr_file
@@ -136,6 +157,9 @@ steps:
   step8_make_ndx:
     label: Generate GROMACS index file
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.make_ndx
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
     in:
       config: step8_make_ndx_config
@@ -145,6 +169,9 @@ steps:
   step9_grompp_nvt:
     label: Equilibrate the System (NVT) - part 1
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step9_grompp_nvt_config
@@ -164,6 +191,9 @@ steps:
   step11_grompp_npt:
     label: Equilibrate the System (NPT) - part 1
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step11_grompp_npt_config
@@ -184,6 +214,9 @@ steps:
   step13_grompp_md:
     label: Free Molecular Dynamics Simulation - part 1
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step13_grompp_md_config
@@ -208,6 +241,9 @@ steps:
       This uses the local md_gather.cwl workflow to gather all desired output files.
       A filter for missing files is applied (pickValue: all_non_null), which requires
       using a runner which is compliant with v1.2.0, or later, CWL standards.
+    requirements:
+      ResourceRequirement:
+        coresMax: 1
     in:
       external_project_file: step1_pdb_file
       external_files: 
