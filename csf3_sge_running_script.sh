@@ -15,7 +15,7 @@
 
 # Flags for running SGE and Toil. Note that the defaultCores sets the usage for the jobs,
 # which should fit within the nodes selected information in TOIL_SLURM_ARGS.
-SGE_FLAGS="--batchSystem slurm --defaultCores 6"
+SGE_FLAGS="--batchSystem grid_engine --defaultCores 6"
 
 # Flags for general Toil usage - on HPC we generally need to disable caching and use singularity.
 # Create the workdir directory beforehand.
