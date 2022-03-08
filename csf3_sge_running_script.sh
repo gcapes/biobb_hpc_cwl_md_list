@@ -4,7 +4,10 @@
 
 # Before running this script, make sure that you have loaded the required modules
 # and that the following environment variables are set and exported (or set in this script).
-#
+
+# Speed up qacct:
+alias qacct='qacct -f <(tail -n 1000 $SGE_ROOT/$SGE_CELL/common/accounting)'
+
 # TMPDIR - this needs to be one a shared disk accessible by all compute and login nodes
 # Set SGE arguments for the compute jobs
 export TOIL_GRIDENGINE_ARGS=
