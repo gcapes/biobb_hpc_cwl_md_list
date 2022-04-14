@@ -110,6 +110,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMax: 1
+        ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step4_grompp_genion_config
@@ -136,6 +137,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMax: 1
+        ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step6_grompp_min_config
@@ -172,6 +174,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMax: 1
+        ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step9_grompp_nvt_config
@@ -217,6 +220,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMax: 1
+        ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step13_grompp_md_config
