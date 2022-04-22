@@ -29,8 +29,8 @@ TOIL_FLAGS="--disableCaching --singularity"
 # Flags for gathering data for stats analysis (these are stored in the cache directory)
 # Create the jobstore base directory beforehand, and adapt the naming convention for the
 # individual jobstore directories as you need.  
-JOBSTORE=jobstore_normalq
+JOBSTORE=jobstore_parallelq
 STAT_FLAGS="--stats --jobStore $JOBSTORE"
 
-toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SGE_FLAGS md_list.cwl md_list_input_descriptions.yml
+toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SGE_FLAGS md_list_parallel.cwl md_list_input_descriptions.yml
 
