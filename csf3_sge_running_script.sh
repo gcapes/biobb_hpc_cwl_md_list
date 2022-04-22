@@ -10,7 +10,7 @@ alias qacct='qacct -f <(tail -n 1000 $SGE_ROOT/$SGE_CELL/common/accounting)'
 
 # TMPDIR - this needs to be one a shared disk accessible by all compute and login nodes
 # Set SGE arguments for the compute jobs
-export TOIL_GRIDENGINE_ARGS=
+export TOIL_GRIDENGINE_ARGS="-l short"
 # Set the parallel environment for running jobs:
 export TOIL_GRIDENGINE_PE=smp.pe
 # Set the download location for singularity, which should be on a shared disk.
