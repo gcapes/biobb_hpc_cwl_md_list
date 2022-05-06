@@ -15,7 +15,7 @@
 export TMPDIR=~/scratch/tmp # This needs to be on a shared disk accessible by all compute nodes
 mkdir -p $TMPDIR
 # TOIL_SLURM_ARGS - these will be slurm settings used for compute jobs, for example:
-export TOIL_SLURM_ARGS="--partition=serial --export=ALL"
+export TOIL_SLURM_ARGS=
 export CWL_SINGULARITY_CACHE=~/scratch/docker_store
 mkdir -p $CWL_SINGULARITY_CACHE
 export SINGULARITY_CACHEDIR=~/scratch/.singularity
