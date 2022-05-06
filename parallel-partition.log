@@ -1,0 +1,81 @@
+[2022-05-06T15:16:07+0100] [MainThread] [I] [cwltool] Resolved 'md_list_parallel_slurm.cwl' to 'file:///gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/md_list_parallel_slurm.cwl'
+[2022-05-06T15:16:37+0100] [MainThread] [W] [cwltool] Workflow checker warning:
+md_list_parallel_slurm.cwl:205:7:  'input_ndx_path' is not an input parameter of
+                                   file:///gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl,
+                                   expected config, input_cpt_path, input_gro_path,
+                                   input_top_zip_path
+md_list_parallel_slurm.cwl:240:79: Source 'output_cpt_file' of type ["null", "File"] may be
+                                   incompatible
+md_list_parallel_slurm.cwl:253:7:    with sink 'external_files' of type {"type": "array",
+                                     "items": "File"}
+                                     source has linkMerge method merge_flattened
+                                     pickValue is: all_non_null
+md_list_parallel_slurm.cwl:183:7:  'input_ndx_path' is not an input parameter of
+                                   file:///gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl,
+                                   expected config, input_gro_path, input_top_zip_path
+md_list_parallel_slurm.cwl:229:7:  'input_ndx_path' is not an input parameter of
+                                   file:///gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl,
+                                   expected config, input_cpt_path, input_gro_path,
+                                   input_top_zip_path
+[2022-05-06T15:16:37+0100] [MainThread] [I] [toil.job] Saving graph of 2 jobs, 2 new
+[2022-05-06T15:16:37+0100] [MainThread] [I] [toil.job] Processing job 'ResolveIndirect' kind-ResolveIndirect/instance-p492_ylo v0
+[2022-05-06T15:16:37+0100] [MainThread] [I] [toil.job] Processing job 'CWLWorkflow' kind-CWLWorkflow/instance-z567c212 v0
+[2022-05-06T15:16:37+0100] [MainThread] [I] [toil] Running Toil version 5.6.0-c34146a6437e4407a61e946e968bcce67a0ebbca on host login02.csf4.local.
+[2022-05-06T15:16:38+0100] [MainThread] [I] [toil.worker] Redirecting logging to /gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/workdir/b71e3f37b9965db0ab926e25483bd15f/85a2/worker_log.txt
+sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+[2022-05-06T15:16:38+0100] [Thread-3  ] [E] [toil.batchSystems.abstractGridEngineBatchSystem] Will retry errored operation submitJob, code 1: sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+
+[2022-05-06T15:16:40+0100] [MainThread] [I] [toil.leader] 1 jobs are running, 0 jobs are issued and waiting to run
+[2022-05-06T15:16:44+0100] [MainThread] [W] [toil.leader] A result seems to already have been processed for job 0
+sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+[2022-05-06T15:17:14+0100] [Thread-3  ] [E] [toil.batchSystems.abstractGridEngineBatchSystem] Will retry errored operation submitJob, code 1: sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+
+sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+[2022-05-06T15:17:50+0100] [Thread-3  ] [E] [toil.batchSystems.abstractGridEngineBatchSystem] Failed operation submitJob, code 1: sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+
+[2022-05-06T15:17:50+0100] [Thread-3  ] [E] [toil.batchSystems.abstractGridEngineBatchSystem] GridEngine like batch system failure
+Traceback (most recent call last):
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 252, in run
+    while self._runStep():
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 241, in _runStep
+    activity |= self.createJobs(newJob)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 115, in createJobs
+    batchJobID = self.boss.with_retries(self.submitJob, subLine)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 482, in with_retries
+    raise err
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 473, in with_retries
+    return operation(*args, **kwargs)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/slurm.py", line 69, in submitJob
+    output = call_command(subLine)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/lib/misc.py", line 112, in call_command
+    raise CalledProcessErrorStderr(proc.returncode, cmd, output=stdout, stderr=stderr)
+toil.lib.misc.CalledProcessErrorStderr: Command '['sbatch', '-J', 'toil_job_1_', '--export=OMP_NUM_THREADS=1', '--cpus-per-task=1', '-o', '/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/workdir/toil_7c260f52-53f0-459c-9a74-8b40dff23a84.1.%j.out.log', '-e', '/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/workdir/toil_7c260f52-53f0-459c-9a74-8b40dff23a84.1.%j.err.log', '--partition=multicore', '--export=ALL', '--wrap=_toil_worker CWLWorkflow file:/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/jobstore/test_2022-05-06_15-16 kind-CWLWorkflow/instance-z567c212 --context gASVBAEAAAAAAACMIXRvaWwuYmF0Y2hTeXN0ZW1zLmNsZWFudXBfc3VwcG9ydJSMFFdvcmtlckNsZWFudXBDb250ZXh0lJOUKYGUfZSMEXdvcmtlckNsZWFudXBJbmZvlIwldG9pbC5iYXRjaFN5c3RlbXMuYWJzdHJhY3RCYXRjaFN5c3RlbZSMEVdvcmtlckNsZWFudXBJbmZvlJOUjDYvZ3BmczAxL3NjcmF0Y2gvbWJleGVnYzIvYmlvYmJfaHBjX2N3bF9tZF9saXN0L3dvcmtkaXKUjCQ3YzI2MGY1Mi01M2YwLTQ1OWMtOWE3NC04YjQwZGZmMjNhODSUjAZhbHdheXOUh5SBlHNiLg==']' exit status 1: sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+
+Exception in thread Thread-3:
+Traceback (most recent call last):
+  File "/mnt/iusers01/support/mbexegc2/python3.9.9/lib/python3.9/threading.py", line 973, in _bootstrap_inner
+    self.run()
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 252, in run
+    while self._runStep():
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 241, in _runStep
+    activity |= self.createJobs(newJob)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 115, in createJobs
+    batchJobID = self.boss.with_retries(self.submitJob, subLine)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 482, in with_retries
+    raise err
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/abstractGridEngineBatchSystem.py", line 473, in with_retries
+    return operation(*args, **kwargs)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/batchSystems/slurm.py", line 69, in submitJob
+    output = call_command(subLine)
+  File "/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/venv/lib/python3.9/site-packages/toil/lib/misc.py", line 112, in call_command
+    raise CalledProcessErrorStderr(proc.returncode, cmd, output=stdout, stderr=stderr)
+toil.lib.misc.CalledProcessErrorStderr: Command '['sbatch', '-J', 'toil_job_1_', '--export=OMP_NUM_THREADS=1', '--cpus-per-task=1', '-o', '/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/workdir/toil_7c260f52-53f0-459c-9a74-8b40dff23a84.1.%j.out.log', '-e', '/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/workdir/toil_7c260f52-53f0-459c-9a74-8b40dff23a84.1.%j.err.log', '--partition=multicore', '--export=ALL', '--wrap=_toil_worker CWLWorkflow file:/gpfs01/scratch/mbexegc2/biobb_hpc_cwl_md_list/jobstore/test_2022-05-06_15-16 kind-CWLWorkflow/instance-z567c212 --context gASVBAEAAAAAAACMIXRvaWwuYmF0Y2hTeXN0ZW1zLmNsZWFudXBfc3VwcG9ydJSMFFdvcmtlckNsZWFudXBDb250ZXh0lJOUKYGUfZSMEXdvcmtlckNsZWFudXBJbmZvlIwldG9pbC5iYXRjaFN5c3RlbXMuYWJzdHJhY3RCYXRjaFN5c3RlbZSMEVdvcmtlckNsZWFudXBJbmZvlJOUjDYvZ3BmczAxL3NjcmF0Y2gvbWJleGVnYzIvYmlvYmJfaHBjX2N3bF9tZF9saXN0L3dvcmtkaXKUjCQ3YzI2MGY1Mi01M2YwLTQ1OWMtOWE3NC04YjQwZGZmMjNhODSUjAZhbHdheXOUh5SBlHNiLg==']' exit status 1: sbatch: error: QOSMinCpuNotSatisfied
+sbatch: error: Batch job submission failed: Job violates accounting/QOS policy (job submit limit, user's size and/or time limits)
+

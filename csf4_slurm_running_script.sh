@@ -15,7 +15,7 @@
 export TMPDIR=~/scratch/tmp # This needs to be on a shared disk accessible by all compute nodes
 mkdir -p $TMPDIR
 # TOIL_SLURM_ARGS - these will be slurm settings used for compute jobs, for example:
-export TOIL_SLURM_ARGS=
+export TOIL_SLURM_ARGS="--partition=multicore --export=ALL"
 export CWL_SINGULARITY_CACHE=~/scratch/docker_store
 mkdir -p $CWL_SINGULARITY_CACHE
 export SINGULARITY_CACHEDIR=~/scratch/.singularity
@@ -38,4 +38,4 @@ TOIL_FLAGS="--workDir ./workdir --disableCaching --singularity --disableProgress
 # individual jobstore directories as you need.  
 STAT_FLAGS="--stats --jobStore ./jobstore/test_$(date "+%Y-%m-%d_%H-%M")"
 
-toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SLURM_FLAGS md_list.cwl md_list_input_descriptions.yml
+toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SLURM_FLAGS md_list_parallel_slurm.cwl md_list_input_descriptions.yml
