@@ -75,7 +75,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.pdb2gmx
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/pdb2gmx.cwl
     in:
       input_pdb_path: step1_pdb_file
@@ -86,7 +86,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.editconf
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/editconf.cwl
     in:
       input_gro_path: step1_pdb2gmx/output_gro_file
@@ -97,7 +97,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.solvate
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/solvate.cwl
     in:
       input_solute_gro_path: step2_editconf/output_gro_file
@@ -109,7 +109,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
         ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
@@ -123,7 +123,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.genion
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/genion.cwl
     in:
       config: step5_genion_config
@@ -136,7 +136,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
         ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
@@ -150,7 +150,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step6_grompp_min/output_tpr_file
@@ -161,7 +161,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.make_ndx
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/make_ndx.cwl
     in:
       config: step8_make_ndx_config
@@ -173,7 +173,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
         ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
@@ -186,6 +186,9 @@ steps:
   step10_mdrun_nvt:
     label: Equilibrate the System (NVT) - part 2
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
+    requirements:
+      ResourceRequirement:
+        coresMin: 2
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step9_grompp_nvt/output_tpr_file
@@ -196,7 +199,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
       config: step11_grompp_npt_config
@@ -209,6 +212,9 @@ steps:
   step12_mdrun_npt:
     label: Equilibrate the System (NPT) - part 2
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
+    requirements:
+      ResourceRequirement:
+        coresMin: 2
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step11_grompp_npt/output_tpr_file
@@ -219,7 +225,7 @@ steps:
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.grompp
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
         ramMin: 2000
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/grompp.cwl
     in:
@@ -233,6 +239,9 @@ steps:
   step14_mdrun_md:
     label: Free Molecular Dynamics Simulation - part 2
     doc: https://biobb-md.readthedocs.io/en/latest/gromacs.html#module-gromacs.mdrun
+    requirements:
+      ResourceRequirement:
+        coresMin: 2
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       config: step14_mdrun_md_config
@@ -247,7 +256,7 @@ steps:
       using a runner which is compliant with v1.2.0, or later, CWL standards.
     requirements:
       ResourceRequirement:
-        coresMin: 2
+        coresMax: 1
     in:
       external_project_file: step1_pdb_file
       external_files: 
@@ -261,12 +270,4 @@ steps:
         pickValue: all_non_null
     run: md_gather.cwl
     out: [project_work_dir]
-    
-
-
-
-
-
-
-
 
