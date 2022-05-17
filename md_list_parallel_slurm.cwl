@@ -189,6 +189,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMin: 2
+        coresMax: 4
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step9_grompp_nvt/output_tpr_file
@@ -215,6 +216,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMin: 2
+        coresMax: 4
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       input_tpr_path: step11_grompp_npt/output_tpr_file
@@ -242,6 +244,7 @@ steps:
     requirements:
       ResourceRequirement:
         coresMin: 2
+        coresMax: 4
     run: biobb/biobb_adapters/cwl/biobb_md/gromacs/mdrun.cwl
     in:
       config: step14_mdrun_md_config
