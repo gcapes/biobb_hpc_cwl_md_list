@@ -33,11 +33,11 @@ SLURM_FLAGS="--dont_allocate_mem --batchSystem slurm --defaultCores 6"
 
 # Flags for general Toil usage - on HPC we generally need to disable caching and use singularity.
 # Create the workdir directory beforehand.
-TOIL_FLAGS="--workDir ./workdir --disableCaching --singularity --disableProgress"
+TOIL_FLAGS="--workDir ./workdir --disableCaching --singularity --disableProgress --logDebug"
 
 # Flags for gathering data for stats analysis (these are stored in the cache directory)
 # Create the jobstore base directory beforehand, and adapt the naming convention for the
 # individual jobstore directories as you need.  
 STAT_FLAGS="--stats --jobStore ./jobstore/test_$(date "+%Y-%m-%d_%H-%M")"
 
-toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SLURM_FLAGS md_list_parallel_slurm.cwl md_list_input_descriptions.yml
+toil-cwl-runner $TOIL_FLAGS $STAT_FLAGS $SLURM_FLAGS md_list_reduced.cwl md_list_input_descriptions.yml
